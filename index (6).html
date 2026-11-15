@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Співбесіда: HR-менеджер</title>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f5;--panel:#ffffff;--ink:#1c2b39;--mute:#5b6b7a;--line:#d5dde4;--accent:#1f6f78;--accent-ink:#ffffff;--soft:#e2f0f1;--good:#2e7d4f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121b24;--panel:#1b2733;--ink:#e8eef3;--mute:#9db0bf;--line:#2e3d4b;--accent:#4fb3bd;--accent-ink:#0b1a20;--soft:#1f3a40;--good:#5cc489;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121b24;--panel:#1b2733;--ink:#e8eef3;--mute:#9db0bf;--line:#2e3d4b;--accent:#4fb3bd;--accent-ink:#0b1a20;--soft:#1f3a40;--good:#5cc489;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Onest",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+main{max-width:720px;margin:0 auto;padding:24px 16px 48px}
+h1{font-size:1.9rem;line-height:1.2;margin:0 0 8px;font-weight:700}
+h2{font-size:1.25rem;margin:0 0 12px}
+p{margin:0 0 12px}
+.mute{color:var(--mute)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+.btn{font:inherit;font-weight:500;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:11px 20px;border-radius:10px;cursor:pointer;margin:0 8px 8px 0}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+input[type=text],textarea{font:inherit;width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{min-height:150px;resize:vertical}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.ask{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.bubble{background:var(--soft);border-radius:4px 14px 14px 14px;padding:12px 14px}
+.bubble b{display:block;font-size:.85rem;color:var(--mute);font-weight:500;margin-bottom:2px}
+.top{display:flex;justify-content:flex-end;margin-bottom:8px}
+.sm{font-size:.9rem;padding:6px 12px;margin:0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft)}
+.ok{color:var(--good);font-weight:500;min-height:1.5em}
+</style>
+</head>
+<body>
+<main>
+<div class="top"><button class="btn ghost sm" id="theme" type="button">Змінити тему</button></div>
+<div id="app"></div>
+</main>
+<script>
+var POOL=[
+["Мотивація","Чому ви хочете працювати HR-менеджером саме в нашій компанії?"],
+["Мотивація","Що для вас є найцікавішим і найскладнішим у роботі з людьми?"],
+["Підбір","Опишіть, як ви будуєте процес підбору від відкриття вакансії до виходу людини на роботу."],
+["Підбір","Як ви оцінюєте кандидата, щоб зрозуміти, чи підходить він команді, а не лише за резюме?"],
+["Підбір","Де ви шукаєте кандидатів, коли відкритих резюме на ринку мало?"],
+["Адаптація","Як би ви організували адаптацію нового співробітника в перші 90 днів?"],
+["Конфлікти","Розкажіть про конфлікт у команді, який ви вирішували. Що ви зробили і який був результат?"],
+["Конфлікти","Керівник і підлеглий не знаходять спільної мови. Ваші перші кроки?"],
+["Право","Які трудові норми та документи, на вашу думку, HR зобов’язаний контролювати найретельніше?"],
+["Право","Як ви діятимете, якщо керівник просить зробити те, що суперечить законодавству?"],
+["Аналітика","Які HR-показники ви відстежуєте і що вони вам підказують?"],
+["Аналітика","Текучість у відділі різко зросла. Як ви шукатимете причини?"],
+["Розвиток","Як ви визначаєте, кому і яке навчання потрібне в компанії?"],
+["Розвиток","Як би ви вибудували систему оцінки ефективності співробітників?"],
+["Мотивація персоналу","Що, крім зарплати, допомагає утримувати сильних співробітників?"],
+["Культура","Як ви підтримуєте корпоративну культуру в команді, яка працює віддалено?"],
+["Конфіденційність","Співробітник довірив вам особисту інформацію. Як ви з нею поводитиметеся?"],
+["Комунікація","Як ви повідомляєте співробітнику про звільнення або скорочення?"],
+["Комунікація","Як ви даєте складний зворотний зв’язок людині, яка його не очікує?"],
+["Лідерство","Як би ви переконали топменеджмент інвестувати в HR-ініціативу?"],
+["Стрес","Розкажіть про ситуацію з надвеликим навантаженням. Як ви розставляли пріоритети?"],
+["Помилки","Опишіть вашу професійну помилку та висновки, які ви зробили."],
+["Розвиток","Яка нова HR-практика або інструмент, на вашу думку, найбільше змінить професію найближчими роками?"],
+["Цілі","Яких результатів ви хочете досягти на цій посаді за перший рік?"]
+];
+var SHEET_URL="https://script.google.com/macros/s/AKfycbw33vo_Hc4YBXVXFasX8QdGj7keNXuE9XL3NAZAwKhdjDIm9iwVVmqNSBKhXGNgv-3S/exec";
+var S={name:"",qs:[],a:[],i:0,when:""};
+var app=document.getElementById("app");
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function pick(n){var a=POOL.slice(),i,j,t;for(i=a.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t;}return a.slice(0,n);}
+function start(){
+ app.innerHTML='<div class="card"><h1>Співбесіда: HR-менеджер</h1><p class="mute">Вам буде поставлено 10 випадкових запитань. Відповідайте своїми словами. Наприкінці відповіді можна перенести в Google Таблицю.</p>'+
+ '<p><label for="nm">Прізвище та ім’я</label><input type="text" id="nm" autocomplete="off" value="'+esc(S.name)+'"></p>'+
+ '<button class="btn" id="go" type="button">Почати співбесіду</button></div>';
+ document.getElementById("go").onclick=function(){
+  S.name=document.getElementById("nm").value.trim();
+  S.qs=pick(10);S.a=[];S.i=0;S.when=new Date().toLocaleString("uk-UA");render();
+ };
+}
+function render(){
+ var k=S.qs[S.i],last=S.i==S.qs.length-1;
+ app.innerHTML='<div class="card"><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="'+(S.i+1)+'"><i style="width:'+(S.i/10*100)+'%"></i></div>'+
+ '<p class="mute">Запитання '+(S.i+1)+' з 10</p>'+
+ '<div class="ask"><div class="av" aria-hidden="true">HR</div><div class="bubble"><b>Інтерв’юер</b>'+esc(k[1])+'</div></div>'+
+ '<label class="mute" for="ans">Ваша відповідь</label><textarea id="ans">'+esc(S.a[S.i]||"")+'</textarea><p></p>'+
+ (S.i>0?'<button class="btn ghost" id="back" type="button">Назад</button>':'')+
+ '<button class="btn" id="next" type="button">'+(last?"Завершити":"Далі")+'</button></div>';
+ var t=document.getElementById("ans");t.focus();
+ function save(){S.a[S.i]=t.value.trim();}
+ document.getElementById("next").onclick=function(){save();if(last)finish();else{S.i++;render();window.scrollTo(0,0);}};
+ var b=document.getElementById("back");if(b)b.onclick=function(){save();S.i--;render();window.scrollTo(0,0);};
+}
+function rows(){
+ var r=[["Дата і час","Кандидат","№","Категорія","Запитання","Відповідь"]];
+ S.qs.forEach(function(k,i){r.push([S.when,S.name||"Без імені",String(i+1),k[0],k[1],S.a[i]||""]);});
+ return r;
+}
+function q(v){return '"'+String(v).replace(/"/g,'""')+'"';}
+function toText(sep){return rows().map(function(r){return r.map(q).join(sep);}).join("\r\n");}
+function sendToSheet(msg,btn){
+ if(SHEET_URL.indexOf("https://script.google.com/")!==0){msg.textContent="Адресу скрипта ще не налаштовано. Скористайтеся копіюванням або CSV.";return;}
+ msg.textContent="Надсилаємо відповіді в таблицю…";btn.disabled=true;
+ fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({when:S.when,name:S.name||"Без імені",answers:S.qs.map(function(k,i){return{q:k[1],a:S.a[i]||""};}),all:POOL.map(function(k){return k[1];})})})
+ .then(function(){msg.textContent="Запит на запис у таблицю надіслано. Перевірте таблицю.";btn.disabled=false;},
+ function(){msg.textContent="Не вдалося надіслати. Перевірте з’єднання й спробуйте ще раз.";btn.disabled=false;});
+}
+function finish(){
+ var h='<div class="card"><h2>Дякуємо, співбесіду завершено</h2><p class="mute">Відповіді надсилаються в Google Таблицю автоматично. Нижче є резервні способи.</p>'+
+ '<button class="btn" id="cp" type="button">Копіювати для Google Таблиці</button><button class="btn ghost" id="dl" type="button">Завантажити CSV</button><div class="ok" id="msg" role="status"></div><button class="btn" id="rt" type="button">Надіслати в таблицю ще раз</button>'+
+ '<p class="mute"><b>Копіювання:</b> відкрийте порожню Google Таблицю, клацніть клітинку A1 і натисніть Ctrl+V (на телефоні: Вставити).<br><b>CSV:</b> у Google Таблиці оберіть Файл → Імпортувати → Завантаження.</p></div>'+
+ '<div class="card"><h2>Ваші відповіді</h2><div class="scroll"><table><thead><tr>';
+ rows()[0].forEach(function(c){h+='<th>'+esc(c)+'</th>';});
+ h+='</tr></thead><tbody>';
+ rows().slice(1).forEach(function(r){h+='<tr>'+r.map(function(c){return '<td>'+esc(c)+'</td>';}).join("")+'</tr>';});
+ h+='</tbody></table></div></div><button class="btn ghost" id="again" type="button">Нова співбесіда з іншими запитаннями</button>';
+ app.innerHTML=h;window.scrollTo(0,0);
+ var msg=document.getElementById("msg");
+ document.getElementById("again").onclick=function(){S.a=[];start();};
+ var rt=document.getElementById("rt");rt.onclick=function(){sendToSheet(msg,rt);};
+ sendToSheet(msg,rt);
+ document.getElementById("cp").onclick=function(){
+  var tx=toText("\t");
+  function fallback(){var t=document.createElement("textarea");t.value=tx;document.body.appendChild(t);t.select();var ok=false;try{ok=document.execCommand("copy");}catch(e){}document.body.removeChild(t);msg.textContent=ok?"Скопійовано. Вставте в Google Таблицю.":"Не вдалося скопіювати. Скористайтеся завантаженням CSV.";}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(tx).then(function(){msg.textContent="Скопійовано. Вставте в Google Таблицю.";},fallback);}else fallback();
+ };
+ document.getElementById("dl").onclick=function(){
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob(["\uFEFF"+toText(",")],{type:"text/csv;charset=utf-8"}));
+  a.download="spivbesida-"+(S.name||"kandydat").replace(/\s+/g,"-")+".csv";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);msg.textContent="Файл збережено.";
+ };
+}
+document.getElementById("theme").onclick=function(){
+ var r=document.documentElement,d=r.getAttribute("data-theme");
+ var dark=d?d=="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;
+ r.setAttribute("data-theme",dark?"light":"dark");
+};
+start();
+</script>
+</body>
+</html>
